@@ -56,7 +56,7 @@ public class BackgroundService extends IntentService {
         // Normally we would do some work here, like download a file.
         // For our sample, we just sleep for 5 seconds.
         dump_trace("onHandleIntent start");
-        long endTime = System.currentTimeMillis() + 3*60*1000;
+        long endTime = System.currentTimeMillis() + 2*60*1000;
         //
 
         dump_trace("Start="+getCurrentDate());
@@ -68,7 +68,22 @@ public class BackgroundService extends IntentService {
                     dump_trace("endTime="+endTime);
                     dump_trace("End="+getCurrentDate());
                     //RebootNow();
-                    shutdown_now();
+                    //shutdown_now();
+
+                    dump_trace("onHandleIntent:run:to turn on screen by start new activity:");
+
+
+                    /*
+                    Intent intentTimeout = new Intent(this,MainActivity.class);
+
+                    intentTimeout.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK
+                            | Intent.FLAG_ACTIVITY_CLEAR_TASK);
+                    intentTimeout.putExtra("from_sleep_schedule", true);
+                    startActivity(intentTimeout);
+                    */
+
+                    dump_trace("startActivity:from_sleep_schedule");
+
                 } catch (Exception e) {
                 }
             }

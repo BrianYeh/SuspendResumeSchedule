@@ -15,7 +15,7 @@
             android:layout_height="wrap_content"
             android:background="#000000"
             android:gravity="center_vertical|center_horizontal"
-            android:text="Shutdwon and Check Devices"
+            android:text="Suspend Resume and Check Devices"
             android:textColor="#FFFFFF" />
     </LinearLayout>
     <LinearLayout
