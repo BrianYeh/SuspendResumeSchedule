@@ -124,6 +124,8 @@ public class MainActivity extends Activity {
     }
 
     boolean  g_bFromBootCompleted = false;
+    //from_long_time_schedule
+    boolean  g_b_from_long_time_schedule = false;
     @Override
     protected void onStart() {
         super.onStart();
@@ -131,10 +133,20 @@ public class MainActivity extends Activity {
         dump_trace("onStart:start");
         setTitle(" SN:" + Build.SERIAL);
 
+        /*
         Intent intent = getIntent();
         g_bFromBootCompleted = intent.getBooleanExtra("FromBootCompleted", false);
         dump_trace("onStart:bFromBootCompleted"+ g_bFromBootCompleted);
         if (g_bFromBootCompleted)
+        {
+            //start 3min delay to test
+            startUSBStorage_Test();
+        }
+        */
+        Intent intent = getIntent();
+        g_b_from_long_time_schedule = intent.getBooleanExtra("from_long_time_schedule", false);
+        dump_trace("onStart:g_b_from_long_time_schedule"+ g_b_from_long_time_schedule);
+        if (g_b_from_long_time_schedule)
         {
             //start 3min delay to test
             startUSBStorage_Test();
@@ -503,7 +515,18 @@ http://www.captechconsulting.com/blogs/runtime-permissions-best-practices-and-ho
                 UIUpdateTestTimes(TestTimes);
                 dump_trace("Test Times:=" + TestTimes);
                 //TODO: shutdown...
-                shutdown_now();
+                //shutdown_now();
+                /*
+                Intent intentSendToLongTimeSchedule = new Intent();
+                intentSendToLongTimeSchedule.setAction("long_time_schedule");
+                sendBroadcast(intent);
+                */
+                Intent scheduleIntent= new Intent(MainActivity.this,MainActivity.class);
+                finish();
+                scheduleIntent.putExtra("from_long_time_schedule", true);
+
+                startActivity(scheduleIntent);
+                dump_trace("startActivity:scheduleIntent");
             }else{
                 dump_trace("Test Result:FAIL");
                 // test FAIL, stop ....test ....停在錯誤的畫面不要 shutdown.

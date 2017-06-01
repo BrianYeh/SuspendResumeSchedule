@@ -23,8 +23,13 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
         <receiver android:name=".BootCompletedIntentReceiver">
+            <!--
             <intent-filter>
                 <action android:name="android.intent.action.BOOT_COMPLETED" />
+            </intent-filter>
+            -->
+            <intent-filter>
+                <action android:name="long_time_schedule" />
             </intent-filter>
         </receiver>
 
