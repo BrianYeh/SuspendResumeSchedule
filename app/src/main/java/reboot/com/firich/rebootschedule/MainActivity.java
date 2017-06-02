@@ -10,6 +10,7 @@ import android.os.Build;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.PowerManager;
+import android.provider.Settings;
 import android.util.Log;
 import android.view.Gravity;
 import android.view.View;
@@ -135,6 +136,14 @@ public class MainActivity extends Activity {
         startService(RebootIntent);
         dump_trace("MainActivity:onCreate:startService:RebootIntent");
         */
+        Intent intent = getIntent();
+        g_b_from_sleep_schedule = intent.getBooleanExtra("from_sleep_schedule", false);
+        dump_trace("onStart:g_b_from_sleep_schedule"+ g_b_from_sleep_schedule);
+        if (g_b_from_sleep_schedule)
+        {
+            //start 3min delay to test
+            startUSBStorage_Test();
+        }
     }
 
     boolean  g_bFromBootCompleted = false;
@@ -157,14 +166,7 @@ public class MainActivity extends Activity {
             startUSBStorage_Test();
         }
         */
-        Intent intent = getIntent();
-        g_b_from_sleep_schedule = intent.getBooleanExtra("from_sleep_schedule", false);
-        dump_trace("onStart:g_b_from_sleep_schedule"+ g_b_from_sleep_schedule);
-        if (g_b_from_sleep_schedule)
-        {
-            //start 3min delay to test
-            startUSBStorage_Test();
-        }
+
 
     }
 
@@ -519,7 +521,7 @@ http://www.captechconsulting.com/blogs/runtime-permissions-best-practices-and-ho
                 test FAIL stop ....test ....停在錯誤的畫面不要 shutdown.
              */
             //*** For Test shutdown
-            g_USBTestResult = true;
+            //g_USBTestResult = true;
             //*** For Test shutdown
 
             //Write test result into global variable.
@@ -543,8 +545,9 @@ http://www.captechconsulting.com/blogs/runtime-permissions-best-practices-and-ho
                 //Go to sleep (Suspend)
                 go_to_sleep_by_setting();
             }else{
-                dump_trace("Test Result:FAIL");
+                dump_trace("Test Result:FAIL, Never Sleep");
                 // test FAIL, stop ....test ....停在錯誤的畫面不要 shutdown.
+                android.provider.Settings.System.putInt(getApplication().getContentResolver(), Settings.System.SCREEN_OFF_TIMEOUT, -1);
             }
 /*
             if (testPASS){
@@ -574,7 +577,7 @@ http://www.captechconsulting.com/blogs/runtime-permissions-best-practices-and-ho
     private void go_to_sleep_by_setting()
     {
         dump_trace("go_to_sleep_by_setting:start");
-        //android.provider.Settings.System.putInt(getApplication().getContentResolver(), Settings.System.SCREEN_OFF_TIMEOUT, 60*1000);
+        android.provider.Settings.System.putInt(getApplication().getContentResolver(), Settings.System.SCREEN_OFF_TIMEOUT, 60*1000);
         TurnOnScreenSchedule();
     }
 
