@@ -9,6 +9,7 @@ import android.util.Log;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 
+
 public class BackgroundService extends IntentService {
     private boolean bDebugOn = true;
     String strTagUtil = "Reboot.";
